@@ -1,0 +1,12 @@
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import BaseController from 'App/Core/Http/base-controller';
+
+export default class {{name}} extends BaseController {
+
+{{#methods}}
+    public async {{.}}({ request, response }: HttpContextContract) {
+        //
+    }
+
+{{/methods}}
+}
