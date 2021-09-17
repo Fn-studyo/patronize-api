@@ -53,10 +53,10 @@ export default class Module extends BaseCommand {
 
   private async createController(moduleName) {
     moduleName = moduleName[0].toUpperCase() + moduleName.slice(1)
-    const name = 'controller'
+    const name = `${moduleName}Controller`
     const methods: string[] = ['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']
     this.generator
-      .addFile(name)
+      .addFile('controller')
       .appRoot(this.application.appRoot)
       .destinationDir(`app/Modules/${moduleName}`)
       .useMustache()

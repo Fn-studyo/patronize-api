@@ -2,13 +2,21 @@
   "commands": {
     "module": {
       "settings": {
-        "loadApp": false,
+        "loadApp": true,
         "stayAlive": false
       },
       "commandPath": "./commands/Module",
       "commandName": "module",
-      "description": "",
-      "args": [],
+      "description": "Creates a new module",
+      "args": [
+        {
+          "type": "string",
+          "propertyName": "name",
+          "name": "name",
+          "required": true,
+          "description": "Name of the module you want to create"
+        }
+      ],
       "aliases": [],
       "flags": []
     },
