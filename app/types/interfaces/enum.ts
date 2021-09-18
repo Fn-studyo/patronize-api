@@ -3,3 +3,8 @@ export enum FileType {
   Route = 'routes',
   Service = 'service',
 }
+
+export enum TransactionType {
+  DEBIT = 'DEBIT',
+  CREDIT = 'CREDIT',
+}

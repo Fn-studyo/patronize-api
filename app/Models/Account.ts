@@ -21,6 +21,9 @@ export default class Account extends BaseModel {
   @column()
   public bank_code: string
 
+  @column()
+  public balance: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
