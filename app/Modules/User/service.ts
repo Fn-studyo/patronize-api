@@ -18,6 +18,19 @@ class UserService {
         accountVerifyToken,
         accountVerifyExpires: new Date(Date.now() + 10 * 60 * 1000),
       })
+    return verifyToken
+  }
+
+  public async getUserByVerificationToken(token: string) {
+    const accountVerifyToken = createHash('sha256').update(token).digest('hex')
+
+    const user = await User.query()
+      .where('accountVerifyToken', accountVerifyToken)
+      .where('accountVerifyExpires', 'IN')
+      .first()
+
+    if (!user) throw new Error('Invalid verification token')
+    return user
   }
 }
 

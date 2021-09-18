@@ -1,13 +1,14 @@
 import Mail from '@ioc:Adonis/Addons/Mail'
+import Env from '@ioc:Adonis/Core/Env'
 
 export default class EmailService {
   public async sendVerificationEmail(to: string, link: string) {
     await Mail.send((message) => {
       message
-        .from('info@example.com', 'Patronize Test')
+        .from(Env.get('MAIL_FROM'), 'Patronize Test')
         .to(to)
         .subject('Verify your account!')
-        .htmlView('emails/welcome', { link })
+        .htmlView('emails/verify', { link })
     })
   }
 }

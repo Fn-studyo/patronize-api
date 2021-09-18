@@ -10,6 +10,18 @@ const routes: Array<RouteObj> = [
     action: 'createUser',
     middleware: null,
   },
+  {
+    url: '/sign-in',
+    verbs: ['POST'],
+    action: 'authenticateUser',
+    middleware: null,
+  },
+  {
+    url: '/resend-verification/:email',
+    verbs: ['POST'],
+    action: 'resendVerification',
+    middleware: null,
+  },
 ]
 
 export { isGroup, groupName, groupMiddleware, routes }
