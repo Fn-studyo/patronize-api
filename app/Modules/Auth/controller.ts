@@ -6,6 +6,8 @@ import RaveService from 'App/helpers/rave'
 import CreateUser from 'App/Validators/CreateUserValidator'
 import UserService from '../User/service'
 import LoginUser from 'App/Validators/LoginUserValidator'
+import RecoverPassword from 'App/Validators/RecoverPasswordValidator'
+import ResetPassword from 'App/Validators/ResetPasswordValidator'
 
 export default class AuthController extends BaseController {
   private authService: UserService
@@ -34,7 +36,7 @@ export default class AuthController extends BaseController {
       //generate verify token
       const verifyToken = await this.authService.generateVerifyTokenForUser(user.id)
       //Generate link
-      const link = `${Env.get('APP_URL')}/verify/${verifyToken}`
+      const link = `${Env.get('APP_URL')}/auth/verify/${verifyToken}`
       //send verification email
       await this.mailer.sendVerificationEmail(email, link)
       //return user
@@ -57,7 +59,9 @@ export default class AuthController extends BaseController {
         })
       ).toJSON()
     } catch {
-      return response.badRequest('Invalid credentials')
+      return response.badRequest({
+        error: 'Invalid email or password',
+      })
     }
   }
 
@@ -84,12 +88,60 @@ export default class AuthController extends BaseController {
   }
 
   public async verifyUserEmail({ request, response }: HttpContextContract) {
-    // Get user based on the token
-    let user = await this.authService.getUserByVerificationToken(token)
+    try {
+      // Get user based on the token
+      let user = await this.authService.getUserByVerificationToken(request.param('token'))
 
-    // 2) If there is a user, set the new password
-    user = await this.authService.verifyUser(user.uid)
+      // 2) If there is a user, set the new password
+      let verify = await this.authService.verifyUser(user.id)
 
-    return user
+      return {
+        message: 'Your email has been verified',
+        ...verify,
+      }
+    } catch (e) {
+      return response.badRequest({
+        error: e.message || 'We could not verify your email address',
+      })
+    }
+  }
+
+  public async recoverPassword({ request, response }: HttpContextContract) {
+    try {
+      //Validate request payload
+      const payload = await request.validate(RecoverPassword)
+      // get user by the provided email
+      const user = await this.authService.getUserByEmail(payload.email)
+
+      // Generate the random reset token
+      const resetToken = await this.authService.generateResetTokenForUser(user.id)
+
+      const link = `${Env.get('APP_URL')}/verify/${resetToken}`
+
+      // Send it to user's email
+      await this.mailer.sendResetPasswordEmail(user.email, link)
+
+      return response.ok({ message: 'Please check your email' })
+    } catch (e) {
+      return response.badRequest({
+        error: e.message || 'We could not verify your email address',
+      })
+    }
+  }
+
+  public async resetPassword({ request, response }: HttpContextContract) {
+    try {
+      //Validate request payload
+      const payload = await request.validate(ResetPassword)
+      // Get user based on the token
+      let user = await this.authService.getUserByResetToken(request.param('token'))
+
+      // 2) If there is a user, set the new password
+      return await this.authService.resetUserPassword(user.id, payload.password)
+    } catch (e) {
+      return response.badRequest({
+        error: e.message || 'We could not verify your email address',
+      })
+    }
   }
 }

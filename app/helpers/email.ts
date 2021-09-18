@@ -11,4 +11,14 @@ export default class EmailService {
         .htmlView('emails/verify', { link })
     })
   }
+
+  public async sendResetPasswordEmail(to: string, link: string) {
+    await Mail.send((message) => {
+      message
+        .from(Env.get('MAIL_FROM'), 'Patronize Test')
+        .to(to)
+        .subject('Reset your password!')
+        .htmlView('emails/reset', { link })
+    })
+  }
 }

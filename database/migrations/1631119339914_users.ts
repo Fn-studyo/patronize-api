@@ -14,6 +14,7 @@ export default class Users extends BaseSchema {
       table.boolean('accountVerified').defaultTo(false)
       table.datetime('accountVerifyExpires').nullable()
       table.datetime('passwordChangedAt').nullable()
+      table.datetime('email_verified_at').nullable()
       table.string('passwordResetToken').nullable()
       table.string('passwordResetExpires').nullable()
       table.timestamp('created_at', { useTz: true })
