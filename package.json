@@ -29,6 +29,7 @@
     "@adonisjs/mail": "^7.2.4",
     "@adonisjs/repl": "^3.1.0",
     "@adonisjs/view": "^6.1.1",
+    "@legobox/monnify-nodejs": "^1.0.0-rc.3",
     "@types/flutterwave-node": "^1.0.1",
     "flutterwave-node": "^1.2.2",
     "luxon": "^2.0.2",
