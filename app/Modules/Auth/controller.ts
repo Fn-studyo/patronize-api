@@ -2,7 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import BaseController from 'App/Core/Http/base-controller'
 import Env from '@ioc:Adonis/Core/Env'
 import EmailService from 'App/helpers/email'
-import RaveService from 'App/helpers/rave'
+import RaveService from 'App/helpers/monnify'
 import CreateUser from 'App/Validators/CreateUserValidator'
 import UserService from '../User/service'
 import LoginUser from 'App/Validators/LoginUserValidator'
@@ -30,7 +30,7 @@ export default class AuthController extends BaseController {
       //Get the user
       const user = await this.authService.getUserByEmail(email)
       //Generate account number
-      //await this.rave.generateAccountNumber(user.id)
+      await this.rave.generateAccountNumber(user)
       // sign token
       const token = await auth.use('api').generate(user)
       //generate verify token

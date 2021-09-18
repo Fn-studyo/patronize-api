@@ -3,6 +3,9 @@ import BaseController from 'App/Core/Http/base-controller'
 
 export default class MainController extends BaseController {
   public async action({ request }: HttpContextContract) {
-    console.log(await request.body())
+    if (request.ip() === '35.242.133.146') {
+      //perform action
+      console.log(await request.body())
+    }
   }
 }

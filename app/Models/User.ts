@@ -1,7 +1,15 @@
 import { DateTime } from 'luxon'
 import { v4 } from 'uuid'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { column, beforeSave, BaseModel, beforeCreate } from '@ioc:Adonis/Lucid/Orm'
+import {
+  column,
+  beforeSave,
+  BaseModel,
+  beforeCreate,
+  hasMany,
+  HasMany,
+} from '@ioc:Adonis/Lucid/Orm'
+import Account from './Account'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -42,4 +50,9 @@ export default class User extends BaseModel {
   public static assignUuid(user: User) {
     user.id = v4()
   }
+
+  @hasMany(() => Account, {
+    foreignKey: 'userId',
+  })
+  public posts: HasMany<typeof Account>
 }
