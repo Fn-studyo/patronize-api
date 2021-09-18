@@ -20,6 +20,6 @@
 
 import Router from 'App/Core/Http/router'
 
-const modules = ['User']
+const modules = ['Auth', 'User']
 
 Router.registerModules(modules)

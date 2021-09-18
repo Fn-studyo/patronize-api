@@ -26,11 +26,16 @@
     "@adonisjs/auth": "^8.0.9",
     "@adonisjs/core": "^5.3.0",
     "@adonisjs/lucid": "^16.0.2",
+    "@adonisjs/mail": "^7.2.4",
     "@adonisjs/repl": "^3.1.0",
+    "@types/flutterwave-node": "^1.0.1",
+    "flutterwave-node": "^1.2.2",
     "luxon": "^2.0.2",
     "mysql": "^2.18.1",
+    "phc-argon2": "^1.1.2",
     "proxy-addr": "^2.0.7",
     "reflect-metadata": "^0.1.13",
-    "source-map-support": "^0.5.20"
+    "source-map-support": "^0.5.20",
+    "uuidv4": "^6.2.12"
   }
 }

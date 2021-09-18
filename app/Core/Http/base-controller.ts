@@ -1,14 +1,15 @@
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 export default class BaseController {
-  public dataResponse(response, statusCode = 200, data) {
-    response.status(statusCode).json({
+  public dataResponse({ response }: HttpContextContract, data) {
+    response.status(200).json({
       data: data,
     })
   }
 
-  public paginateResponse(response, statusCode = 200, data) {
+  public paginateResponse({ response }: HttpContextContract, data) {
     const { rows, pages } = data
 
-    response.status(statusCode).json({
+    response.status(200).json({
       data: rows,
       metadata: {
         total: pages.total,
@@ -18,8 +19,8 @@ export default class BaseController {
     })
   }
 
-  public errorResponse(response, statusCode = 500, errorMessage = '') {
-    response.status(statusCode).json({
+  public errorResponse({ response }: HttpContextContract, errorMessage: string) {
+    response.status(500).json({
       message: errorMessage,
     })
   }

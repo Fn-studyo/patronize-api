@@ -4,8 +4,8 @@ export default class Transaction extends BaseSchema {
   protected tableName = 'transactions'
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').primary()
-      table.integer('user_id').unsigned().references('users.id').onDelete('CASCADE')
+      table.uuid('id').primary()
+      table.string('user_id').references('users.id').onDelete('CASCADE')
       table.enum('type', ['DEBIT', 'CREDIT']).notNullable()
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })

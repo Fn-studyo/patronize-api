@@ -5,8 +5,8 @@ export default class Accounts extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id')
-      table.integer('user_id').unsigned().references('users.id').onDelete('CASCADE')
+      table.uuid('id').primary()
+      table.string('user_id').references('users.id').onDelete('CASCADE')
       table.string('account_number').unique()
       table.string('account_name')
       table.string('bank_code')

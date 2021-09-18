@@ -4,7 +4,8 @@
     "./commands",
     "@adonisjs/core/build/commands/index.js",
     "@adonisjs/repl/build/commands",
-    "@adonisjs/lucid/build/commands"
+    "@adonisjs/lucid/build/commands",
+    "@adonisjs/mail/build/commands"
   ],
   "exceptionHandlerNamespace": "App/Exceptions/Handler",
   "aliases": {
@@ -14,6 +15,12 @@
     "Contracts": "contracts"
   },
   "preloads": ["./start/routes", "./start/kernel"],
-  "providers": ["./providers/AppProvider", "@adonisjs/core", "@adonisjs/lucid", "@adonisjs/auth"],
+  "providers": [
+    "./providers/AppProvider",
+    "@adonisjs/core",
+    "@adonisjs/lucid",
+    "@adonisjs/auth",
+    "@adonisjs/mail"
+  ],
   "aceProviders": ["@adonisjs/repl"]
 }
