@@ -4,7 +4,6 @@ export default class Router {
   public static registerModules(modules: string[]) {
     let moduleRoutes: any
     modules.forEach((module: string) => {
-      console.log(module)
       moduleRoutes = require(`../../modules/${module}/routes`)
       if (moduleRoutes.isGroup) {
         this.registerGroupRoutes(moduleRoutes, module)

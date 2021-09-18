@@ -33,6 +33,7 @@ export default class RaveService {
         //Store account to db
         await Account.create({
           user_id: user.id,
+          bank_name: e.bankName,
           account_number: e.accountNumber,
           account_name: e.accountName,
           bank_code: e.bankCode,
