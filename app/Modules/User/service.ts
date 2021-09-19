@@ -81,6 +81,11 @@ class UserService {
       message: 'Password changed successfully',
     }
   }
+
+  public async deleteById(id: string) {
+    const user = await User.findOrFail(id)
+    return await user.delete()
+  }
 }
 
 export default UserService

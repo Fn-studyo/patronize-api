@@ -1,15 +1,17 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import BaseController from 'App/Core/Http/base-controller'
 import Account from 'App/Models/Account'
-import Transaction from 'App/Models/Transaction'
 import { TransactionType } from 'App/types/interfaces/enum'
+import TransactionService from '../Transaction/service'
 import UserService from '../User/service'
 
 export default class MainController extends BaseController {
   private userService: UserService
+  private transactionService: TransactionService
   constructor() {
     super()
     this.userService = new UserService()
+    this.transactionService = new TransactionService()
   }
   public async action({ request }: HttpContextContract) {
     if (request.ip() === '35.242.133.146') {
@@ -19,7 +21,7 @@ export default class MainController extends BaseController {
       let data = await request.body()
       const user = await this.userService.getUserByEmail(data.customer.email)
       //Todo->fetch account
-      await Transaction.create({
+      await this.transactionService.save({
         amount: Number(data.amountPaid),
         reference: data.transactionReference,
         payment_reference: data.paymentReference,

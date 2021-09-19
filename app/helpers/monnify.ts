@@ -3,8 +3,14 @@ import Env from '@ioc:Adonis/Core/Env'
 import { generateReference } from './randomizer'
 import { AccountObj } from 'App/types/interfaces'
 import Account from 'App/Models/Account'
+import UserService from 'App/Modules/User/service'
 
 export default class RaveService {
+  private userService: UserService
+
+  constructor() {
+    this.userService = new UserService()
+  }
   public async generateAccountNumber(user: any) {
     try {
       const response = await fetch(
@@ -39,8 +45,12 @@ export default class RaveService {
           bank_code: e.bankCode,
         })
       })
-    } catch (error) {
-      console.log(error)
+    } catch (e) {
+      console.log(e)
+      console.log(user.id)
+      //delete the user so that he/she can make the request again
+      await this.userService.deleteById(user.id)
+      throw new Error(e.message)
     }
   }
 }

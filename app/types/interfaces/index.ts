@@ -1,3 +1,5 @@
+import { TransactionType } from './enum'
+
 export interface RouteObj {
   url: string
   verbs: Array<String>
@@ -18,4 +20,13 @@ export interface AccountObj {
   bankName: string
   accountNumber: string
   accountName: string
+}
+
+export interface TransactionObj {
+  amount: number
+  reference: string
+  payment_reference: string
+  account_id: string
+  user_id: string
+  type: TransactionType
 }
