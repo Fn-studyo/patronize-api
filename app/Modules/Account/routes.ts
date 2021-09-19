@@ -17,10 +17,10 @@ const routes: Array<RouteObj> = [
     middleware: 'auth',
   },
   {
-    url: '/send',
+    url: '/send/:id',
     verbs: ['POST'],
     action: 'p2p',
-    middleware: 'auth',
+    middleware: ['auth', 'sufficient'],
   },
   {
     url: '/:id/transactions',

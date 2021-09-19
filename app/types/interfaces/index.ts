@@ -2,7 +2,7 @@ export interface RouteObj {
   url: string
   verbs: Array<String>
   action: string
-  middleware: string
+  middleware: any
 }
 
 export interface CreateUserDto {
