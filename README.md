@@ -1,6 +1,6 @@
 # Patronize API Task
 
-This project was generated with ❤.
+This project was generated with ❤ by yours truely.
 
 ## Technology
 `Adonis Js`
