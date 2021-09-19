@@ -2,7 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import BaseController from 'App/Core/Http/base-controller'
 import Env from '@ioc:Adonis/Core/Env'
 import EmailService from 'App/helpers/email'
-import RaveService from 'App/helpers/monnify'
+import CoreService from 'App/helpers/fintech-core'
 import CreateUser from 'App/Validators/CreateUserValidator'
 import UserService from '../User/service'
 import LoginUser from 'App/Validators/LoginUserValidator'
@@ -11,13 +11,13 @@ import ResetPassword from 'App/Validators/ResetPasswordValidator'
 
 export default class AuthController extends BaseController {
   private authService: UserService
-  private rave: RaveService
+  private monnify: CoreService
   private mailer: EmailService
 
   constructor() {
     super()
     this.authService = new UserService()
-    this.rave = new RaveService()
+    this.monnify = new CoreService()
     this.mailer = new EmailService()
   }
 
@@ -30,7 +30,7 @@ export default class AuthController extends BaseController {
       //Get the user
       const user = await this.authService.getUserByEmail(email)
       //Generate account number
-      await this.rave.generateAccountNumber(user)
+      await this.monnify.generateAccountNumber(user)
       // sign token
       const token = await auth.use('api').generate(user)
       //generate verify token

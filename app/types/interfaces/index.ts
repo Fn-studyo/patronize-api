@@ -30,3 +30,10 @@ export interface TransactionObj {
   user_id: string
   type: TransactionType
 }
+
+export interface BeneficiaryObj {
+  account_name: string
+  account_bank: string
+  account_number: string
+  user_id: string
+}

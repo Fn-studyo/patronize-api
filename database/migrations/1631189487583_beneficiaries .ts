@@ -7,7 +7,7 @@ export default class DepositBank extends BaseSchema {
       table.uuid('id').primary()
       table.string('account_name')
       table.string('account_bank')
-      table.string('bank_code')
+      table.string('account_number')
       table.string('user_id').references('users.id').onDelete('CASCADE')
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })

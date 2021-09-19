@@ -11,6 +11,7 @@ import {
 } from '@ioc:Adonis/Lucid/Orm'
 import Account from './Account'
 import Transaction from './Transaction'
+import Beneficiary from './Beneficiary'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -56,6 +57,11 @@ export default class User extends BaseModel {
     foreignKey: 'user_id',
   })
   public accounts: HasMany<typeof Account>
+
+  @hasMany(() => Beneficiary, {
+    foreignKey: 'user_id',
+  })
+  public beneficiaries: HasMany<typeof Beneficiary>
 
   @hasMany(() => Transaction, {
     foreignKey: 'user_id',

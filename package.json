@@ -31,6 +31,7 @@
     "@adonisjs/view": "^6.1.1",
     "@types/flutterwave-node": "^1.0.1",
     "@types/node-fetch": "2.5.12",
+    "flutterwave-node-v3": "^1.0.8",
     "luxon": "^2.0.2",
     "mysql": "^2.18.1",
     "node-fetch": "2.6.1",

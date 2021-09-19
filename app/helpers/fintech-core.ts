@@ -1,15 +1,17 @@
 import fetch from 'node-fetch'
+import Flutterwave from 'flutterwave-node-v3'
 import Env from '@ioc:Adonis/Core/Env'
 import { generateReference } from './randomizer'
-import { AccountObj } from 'App/types/interfaces'
+import { AccountObj, BeneficiaryObj } from 'App/types/interfaces'
 import Account from 'App/Models/Account'
 import UserService from 'App/Modules/User/service'
 
-export default class RaveService {
+export default class CoreService {
   private userService: UserService
-
+  private rave: Flutterwave
   constructor() {
     this.userService = new UserService()
+    this.rave = new Flutterwave(Env.get('RAVE_PUBLIC'), Env.get('RAVE_SECRET'))
   }
   public async generateAccountNumber(user: any) {
     try {
@@ -50,6 +52,14 @@ export default class RaveService {
       console.log(user.id)
       //delete the user so that he/she can make the request again
       await this.userService.deleteById(user.id)
+      throw new Error(e.message)
+    }
+  }
+
+  public async validateAccount(body: any) {
+    try {
+      return await this.rave.Misc.verify_Account(body)
+    } catch (e) {
       throw new Error(e.message)
     }
   }

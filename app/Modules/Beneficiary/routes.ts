@@ -8,25 +8,25 @@ const routes: Array<RouteObj> = [
     url: '/create',
     verbs: ['POST'],
     action: 'create',
-    middleware: null,
+    middleware: 'auth',
   },
   {
     url: '/beneficiaries',
     verbs: ['GET'],
     action: 'all',
-    middleware: null,
+    middleware: 'auth',
   },
   {
     url: '/remove/:id',
     verbs: ['DELETE'],
     action: 'remove',
-    middleware: null,
+    middleware: 'auth',
   },
   {
     url: '/update/:id',
     verbs: ['PUT', 'PATCH'],
     action: 'update',
-    middleware: null,
+    middleware: 'auth',
   },
 ]
 
