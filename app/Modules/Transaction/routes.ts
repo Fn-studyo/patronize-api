@@ -5,7 +5,7 @@ const groupName = 'transaction'
 const groupMiddleware = null
 const routes: Array<RouteObj> = [
   {
-    url: '/all',
+    url: '/transactions',
     verbs: ['GET'],
     action: 'all',
     middleware: null,

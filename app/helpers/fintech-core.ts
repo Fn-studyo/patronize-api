@@ -2,7 +2,7 @@ import fetch from 'node-fetch'
 import Flutterwave from 'flutterwave-node-v3'
 import Env from '@ioc:Adonis/Core/Env'
 import { generateReference } from './randomizer'
-import { AccountObj, BeneficiaryObj } from 'App/types/interfaces'
+import { AccountObj } from 'App/types/interfaces'
 import Account from 'App/Models/Account'
 import UserService from 'App/Modules/User/service'
 
