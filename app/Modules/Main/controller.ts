@@ -31,8 +31,11 @@ export default class MainController extends BaseController {
       })
       //Fund account
       const update = await Account.findOrFail('eb0a98ff-bb84-4c47-b51b-3d713131e615')
-      update.balance = Number(update.balance) + Number(data.amountPaid)
-      update.save()
+      await Account.query()
+        .where('id', 'eb0a98ff-bb84-4c47-b51b-3d713131e615')
+        .update({
+          balance: Number(update.balance) + Number(data.amountPaid),
+        })
     }
   }
 }

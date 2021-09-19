@@ -124,7 +124,7 @@ export default class AuthController extends BaseController {
       return response.ok({ message: 'Please check your email' })
     } catch (e) {
       return response.badRequest({
-        error: e.message || 'We could not verify your email address',
+        error: e.messages || e.message,
       })
     }
   }
@@ -140,7 +140,7 @@ export default class AuthController extends BaseController {
       return await this.authService.resetUserPassword(user.id, payload.password)
     } catch (e) {
       return response.badRequest({
-        error: e.message || 'We could not verify your email address',
+        error: e.messages || 'We could not verify your email address',
       })
     }
   }
