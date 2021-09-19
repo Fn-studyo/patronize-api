@@ -8,7 +8,7 @@ const routes: Array<RouteObj> = [
     url: '/auth/register',
     verbs: ['POST'],
     action: 'store',
-    middleware: null,
+    middleware: '',
   },
 ]
 

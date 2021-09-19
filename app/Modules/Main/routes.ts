@@ -8,7 +8,7 @@ const routes: Array<RouteObj> = [
     url: '/webhook',
     verbs: ['POST'],
     action: 'action',
-    middleware: null,
+    middleware: '',
   },
 ]
 
