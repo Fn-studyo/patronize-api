@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeCreate, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import { v4 } from 'uuid'
 import { TransactionType } from 'App/types/interfaces/enum'
+import User from './User'
 
 export default class Transaction extends BaseModel {
   @column({ isPrimary: true })
@@ -35,4 +36,7 @@ export default class Transaction extends BaseModel {
   public static assignUuid(transaction: Transaction) {
     transaction.id = v4()
   }
+
+  @belongsTo(() => User)
+  public user: BelongsTo<typeof User>
 }

@@ -1,7 +1,7 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class DepositBank extends BaseSchema {
-  protected tableName = 'deposit_banks'
+  protected tableName = 'beneficiaries'
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.uuid('id').primary()

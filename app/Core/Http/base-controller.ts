@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 export default class BaseController {
   public dataResponse({ response }: HttpContextContract, data) {
-    response.status(200).json({
+    return response.status(200).json({
       data: data,
     })
   }
@@ -9,7 +9,7 @@ export default class BaseController {
   public paginateResponse({ response }: HttpContextContract, data) {
     const { rows, pages } = data
 
-    response.status(200).json({
+    return response.status(200).json({
       data: rows,
       metadata: {
         total: pages.total,
@@ -20,7 +20,7 @@ export default class BaseController {
   }
 
   public errorResponse({ response }: HttpContextContract, errorMessage: string) {
-    response.status(500).json({
+    return response.status(500).json({
       message: errorMessage,
     })
   }

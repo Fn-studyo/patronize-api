@@ -55,7 +55,7 @@ export default class User extends BaseModel {
   @hasMany(() => Account, {
     foreignKey: 'user_id',
   })
-  public posts: HasMany<typeof Account>
+  public accounts: HasMany<typeof Account>
 
   @hasMany(() => Transaction, {
     foreignKey: 'user_id',

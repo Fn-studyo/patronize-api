@@ -4,10 +4,10 @@ import { CreateUserDto } from 'App/types/interfaces'
 import Hash from '@ioc:Adonis/Core/Hash'
 
 class UserService {
-  public async createUser(body: CreateUserDto) {
+  public async createUser(body: CreateUserDto): Promise<User> {
     return await User.create(body)
   }
-  public async getUserByEmail(email: string) {
+  public async getUserByEmail(email: string): Promise<User> {
     return await User.query().where('email', email).firstOrFail()
   }
   public async generateVerifyTokenForUser(id: string) {
@@ -22,7 +22,7 @@ class UserService {
     return verifyToken
   }
 
-  public async getUserByVerificationToken(token: string) {
+  public async getUserByVerificationToken(token: string): Promise<User> {
     const accountVerifyToken = createHash('sha256').update(token).digest('hex')
 
     const user = await User.query()
@@ -34,7 +34,7 @@ class UserService {
     return user
   }
 
-  public async verifyUser(id: string) {
+  public async verifyUser(id: string): Promise<any[]> {
     return await User.query().where('id', id).update({
       accountVerifyToken: null,
       accountVerifyExpires: null,
@@ -42,7 +42,7 @@ class UserService {
     })
   }
 
-  public async generateResetTokenForUser(id: string) {
+  public async generateResetTokenForUser(id: string): Promise<string> {
     const resetToken = randomBytes(32).toString('hex')
     const passwordResetToken = createHash('sha256').update(resetToken).digest('hex')
     await User.query()

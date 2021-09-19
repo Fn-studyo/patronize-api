@@ -10,6 +10,7 @@ export default class CreateUserValidator {
     bvn: schema.string({}, [rules.unique({ table: 'users', column: 'bvn' })]),
     email: schema.string({}, [
       rules.confirmed(),
+      rules.email(),
       rules.unique({ table: 'users', column: 'email' }),
     ]),
     password: schema.string({}, [rules.confirmed()]),

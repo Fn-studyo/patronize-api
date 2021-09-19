@@ -17,7 +17,7 @@ const routes: Array<RouteObj> = [
     middleware: 'auth',
   },
   {
-    url: '/send/:email',
+    url: '/send',
     verbs: ['POST'],
     action: 'p2p',
     middleware: 'auth',
