@@ -11,13 +11,13 @@ import ResetPassword from 'App/Validators/ResetPasswordValidator'
 
 export default class AuthController extends BaseController {
   private authService: UserService
-  private monnify: CoreService
+  private rave: CoreService
   private mailer: EmailService
 
   constructor() {
     super()
     this.authService = new UserService()
-    this.monnify = new CoreService()
+    this.rave = new CoreService()
     this.mailer = new EmailService()
   }
 
@@ -30,7 +30,7 @@ export default class AuthController extends BaseController {
       //Get the user
       const user = await this.authService.getUserByEmail(email)
       //Generate account number
-      await this.monnify.generateAccountNumber(user)
+      await this.rave.generateAccountNumber(user)
       // sign token
       const token = await auth.use('api').generate(user)
       //generate verify token

@@ -28,6 +28,12 @@ const routes: Array<RouteObj> = [
     action: 'update',
     middleware: 'auth',
   },
+  {
+    url: '/withdraw/:id',
+    verbs: ['POST'],
+    action: 'withdraw',
+    middleware: 'auth',
+  },
 ]
 
 export { isGroup, groupName, groupMiddleware, routes }

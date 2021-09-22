@@ -1,8 +1,7 @@
 import fetch from 'node-fetch'
-import Flutterwave from 'flutterwave-node-v3'
+import Flutterwave from 'flutterwave-node'
 import Env from '@ioc:Adonis/Core/Env'
 import { generateReference } from './randomizer'
-import { AccountObj } from 'App/types/interfaces'
 import Account from 'App/Models/Account'
 import UserService from 'App/Modules/User/service'
 
@@ -11,45 +10,27 @@ export default class CoreService {
   private rave: Flutterwave
   constructor() {
     this.userService = new UserService()
-    this.rave = new Flutterwave(Env.get('RAVE_PUBLIC'), Env.get('RAVE_SECRET'))
+    this.rave = new Flutterwave(Env.get('RAVE_PUBLIC'), Env.get('RAVE_SECRET'), false)
   }
   public async generateAccountNumber(user: any) {
     try {
-      const response = await fetch(
-        'https://sandbox.monnify.com/api/v2/bank-transfer/reserved-accounts',
-        {
-          method: 'post',
-          body: JSON.stringify({
-            accountReference: generateReference(),
-            accountName: `${user.lastname} ${user.firstname}`,
-            currencyCode: 'NGN',
-            contractCode: '7125599672',
-            customerEmail: user.email,
-            bvn: '21212121212',
-            customerName: `${user.lastname} ${user.firstname}`,
-            getAllAvailableBanks: true,
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${Env.get('MONNIFY_TOKEN')}`,
-          },
-        }
-      )
-      const data = await response.json()
-      const accounts: Array<AccountObj> = data.responseBody.accounts
-      accounts.forEach(async (e: any) => {
-        //Store account to db
-        await Account.create({
-          user_id: user.id,
-          bank_name: e.bankName,
-          account_number: e.accountNumber,
-          account_name: e.accountName,
-          bank_code: e.bankCode,
-        })
+      const payload = {
+        email: user.email,
+        is_permanent: 'true',
+        bvn: user.bvn,
+        tx_ref: generateReference(),
+        firstname: user.firstname,
+        lastname: user.lastname,
+        narration: `${user.lastname} ${user.firstname}`,
+      }
+      const response: any = await this.rave.VirtualAccount.accountNumber(payload)
+      const { bankname, accountnumber } = response.data
+      await Account.create({
+        user_id: user.id,
+        bank_name: bankname,
+        account_number: accountnumber,
       })
     } catch (e) {
-      console.log(e)
-      console.log(user.id)
       //delete the user so that he/she can make the request again
       await this.userService.deleteById(user.id)
       throw new Error(e.message)
@@ -58,9 +39,29 @@ export default class CoreService {
 
   public async validateAccount(body: any) {
     try {
-      return await this.rave.Misc.verify_Account(body)
+      //flutterwave-node doesnt have account verify
+      const response = await fetch('https://api.flutterwave.com/v3/accounts/resolve', {
+        method: 'post',
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${Env.get('RAVE_SECRET')}`,
+        },
+      })
+      const data = await response.json()
+      if (data.status === 'success') {
+        return {
+          message: 'Your account number is valid',
+        }
+      }
+      throw new Error(data.message)
     } catch (e) {
       throw new Error(e.message)
     }
+  }
+
+  public async disbursment() {
+    try {
+    } catch (error) {}
   }
 }
