@@ -12,7 +12,8 @@ export default class AccountService {
   }
 
   public async byEmail(email: string) {
-    return await Account.query().where('email', email).first()
+    const user = await User.query().where('email', email).firstOrFail()
+    return await Account.query().where('user_id', user.id).firstOrFail()
   }
 
   public async transactions(id: string): Promise<User[]> {

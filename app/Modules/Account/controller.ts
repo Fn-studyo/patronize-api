@@ -38,21 +38,19 @@ export default class AccountController extends BaseController {
       //Validate request payload
       const payload: any = await request.validate(SendMoney)
       //account we are debiting
-      const accountId: string = request.param('id')
+      const debit = await this.accountService.single(request.param('id'))
+      //account we are crediting
+      const credit = await this.accountService.byEmail(payload.email)
       //debit sender
-      await this.accountService.action(accountId, payload.amount, TransactionType.DEBIT)
+      await this.accountService.action(debit.id, payload.amount, TransactionType.DEBIT)
       //credit recipient
-      await this.accountService.action(
-        payload.credit_account_id,
-        payload.amount,
-        TransactionType.CREDIT
-      )
+      await this.accountService.action(credit.id, payload.amount, TransactionType.CREDIT)
       //save into transaction db
       await this.transactionService.save({
         amount: Number(payload.amount),
         reference: `TRAN-${generateTransactionReference()}`,
         payment_reference: `PAYMENT-${generateTransactionReference()}`,
-        account_id: accountId,
+        account_id: debit.id,
         user_id: user.id,
         type: TransactionType.DEBIT,
       })

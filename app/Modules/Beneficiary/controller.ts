@@ -4,14 +4,18 @@ import BeneficiaryValidator from 'App/Validators/BeneficiaryValidator'
 import BeneficiaryService from './service'
 import CoreService from 'App/helpers/fintech-core'
 import BeneficiaryValidatorUpdate from 'App/Validators/BeneficiaryUpdateValidator'
+import WithdrawValidator from 'App/Validators/WithdrawValidator'
+import AccountService from '../Account/service'
 
 export default class BeneficiaryController extends BaseController {
   private beneficiary: BeneficiaryService
+  private account: AccountService
   private rave: CoreService
 
   constructor() {
     super()
     this.beneficiary = new BeneficiaryService()
+    this.account = new AccountService()
     this.rave = new CoreService()
   }
   public async create({ auth, request, response }: HttpContextContract) {
@@ -65,6 +69,22 @@ export default class BeneficiaryController extends BaseController {
         user_id: user.id,
       }
       return await this.beneficiary.updateBeneficiary(request.param('id'), body)
+    } catch (e) {
+      return response.internalServerError({
+        error: e.messages || e.message,
+      })
+    }
+  }
+
+  public async withdraw({ auth, request, response }: HttpContextContract) {
+    try {
+      await auth.use('api').authenticate()
+      //validate request
+      const payload = await request.validate(WithdrawValidator)
+      const account = await this.account.single(payload.account_id)
+      //get beneficiary
+      const benefit = await this.beneficiary.getSingle(request.param('id'))
+      return await this.rave.disbursment(payload, benefit, account)
     } catch (e) {
       return response.internalServerError({
         error: e.messages || e.message,

@@ -7,6 +7,10 @@ export default class BeneficiaryService {
     return await Beneficiary.create(body)
   }
 
+  public async getSingle(id: string): Promise<Beneficiary> {
+    return await Beneficiary.query().where('id', id).firstOrFail()
+  }
+
   public async getAll(id: string): Promise<User[]> {
     return await User.query().where('id', id).preload('beneficiaries')
   }
